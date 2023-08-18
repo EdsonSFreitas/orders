@@ -1,6 +1,7 @@
 package br.com.freitas.orders.entities;
 
 import br.com.freitas.orders.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -37,6 +38,7 @@ public class OrderItem implements Serializable {
 
     }
 
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }

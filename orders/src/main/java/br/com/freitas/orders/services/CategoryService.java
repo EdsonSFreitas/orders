@@ -1,7 +1,7 @@
 package br.com.freitas.orders.services;
 
-import br.com.freitas.orders.entities.User;
-import br.com.freitas.orders.repositories.UserRepository;
+import br.com.freitas.orders.entities.Category;
+import br.com.freitas.orders.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +13,15 @@ import java.util.List;
  * {@code @project} orders
  */
 @Service
-public class UserService {
+public class CategoryService {
     @Autowired
-    private UserRepository repository;
+    private CategoryRepository repository;
 
-    public List<User> findAll() {
+    public List<Category> findAll(){
         return repository.findAll();
     }
 
-    public User findById(Long id) {
+    public Category findById(Long id){
         return repository.findById(id).orElse(null);
     }
 }
