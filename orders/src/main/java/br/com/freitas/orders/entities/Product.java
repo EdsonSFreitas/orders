@@ -42,6 +42,12 @@ public class Product implements Serializable {
         this.imgUrl = imgUrl;
     }
 
+    public Product(Long id, String name, Set<Category> categories) {
+        this.id = id;
+        this.name = name;
+        this.categories = categories;
+    }
+
     public Set<Category> getCategories() {
         return Collections.unmodifiableSet(categories);
     }

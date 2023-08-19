@@ -24,4 +24,26 @@ public class OrderService {
     public Order findById(Long id) {
         return repository.findById(id).orElse(null);
     }
+
+    //TODO Está inserindo com diversos campos com valor null
+    public Order insert(Order obj) {
+        return repository.save(obj);
+    }
+
+    //TODO Devido a integridade da chave privada não permite excluir Order
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    //TODO Update não está funcionando
+    public Order update(Long id, Order obj) {
+        Order entity = repository.getReferenceById(id);
+        updateData(entity, obj);
+        return repository.save(entity);
+    }
+
+    private void updateData(Order entity, Order obj) {
+        entity = obj;
+    }
+
 }

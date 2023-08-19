@@ -1,7 +1,8 @@
 package br.com.freitas.orders.resources;
 
-import br.com.freitas.orders.entities.User;
-import br.com.freitas.orders.services.UserService;
+import br.com.freitas.orders.entities.Category;
+import br.com.freitas.orders.entities.Product;
+import br.com.freitas.orders.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,24 +17,24 @@ import java.util.List;
  * {@code @project} orders
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/products")
 public class ProductResource {
     @Autowired
-    private UserService service;
+    private ProductService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
-        List<User> list = service.findAll();
+    public ResponseEntity<List<Product>> findAll() {
+        List<Product> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
+    public ResponseEntity<Product> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(service.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<User> insert(@RequestBody User obj) {
+    public ResponseEntity<Product> insert(@RequestBody Product obj) {
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(obj.getId()).toUri();
@@ -41,7 +42,7 @@ public class ProductResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj) {
+    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product obj) {
         obj = service.update(id, obj);
         return ResponseEntity.ok().body(obj);
     }
@@ -50,8 +51,6 @@ public class ProductResource {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
-
-
     }
 
 }
