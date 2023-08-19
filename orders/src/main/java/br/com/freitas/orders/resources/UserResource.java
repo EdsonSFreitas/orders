@@ -1,6 +1,7 @@
 package br.com.freitas.orders.resources;
 
 import br.com.freitas.orders.entities.User;
+import br.com.freitas.orders.entities.UserDTO;
 import br.com.freitas.orders.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,16 @@ public class UserResource {
     private UserService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
-        List<User> list = service.findAll();
+    public ResponseEntity<List<UserDTO>> findAll() {
+        List<UserDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.findById(id));
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+        User user = service.findById(id);
+        UserDTO userDTO = new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPhone());
+        return ResponseEntity.ok(userDTO);
     }
 
     @PostMapping

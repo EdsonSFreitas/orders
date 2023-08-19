@@ -1,6 +1,7 @@
 package br.com.freitas.orders.services;
 
 import br.com.freitas.orders.entities.User;
+import br.com.freitas.orders.entities.UserDTO;
 import br.com.freitas.orders.repositories.UserRepository;
 import br.com.freitas.orders.services.exceptions.DatabaseException;
 import br.com.freitas.orders.services.exceptions.ResourceNotFoundException;
@@ -11,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Edson da Silva Freitas
@@ -22,12 +24,27 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public List<User> findAll() {
+    public List<UserDTO> findAll() {
+        List<User> users = repository.findAll();
+        return users.stream()
+                .map(user -> new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPhone()))
+                .collect(Collectors.toList());
+
+        /* // Retornara todos os campos da classe User para todos users, inclusive a senha do usuario
+    public List<UserDTO> findAll() {
         return repository.findAll();
+    }*/
+
     }
+
 
     public User findById(Long id) {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+
+    /* // Retornara todos os campos, inclusive a senha do usuario
+    public User findById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+    }*/
     }
 
     public User insert(User obj) {
@@ -35,12 +52,12 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        try{
+        try {
             User user = findById(id);
             repository.deleteById(user.getId());
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(id);
-        }catch (DataIntegrityViolationException e ){
+        } catch (DataIntegrityViolationException e) {
             throw new DatabaseException(e.getMessage());
         }
     }
@@ -50,7 +67,7 @@ public class UserService {
             User entity = repository.getReferenceById(id);
             updateData(entity, obj);
             return repository.save(entity);
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException(e.getMessage());
         }
     }
