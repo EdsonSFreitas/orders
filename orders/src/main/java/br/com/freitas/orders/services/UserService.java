@@ -26,12 +26,9 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public Page<UserDTO> findAllByOrder(Pageable pageable, String orderBy) {
-        return switch (orderBy) {
-            case "name" -> repository.findAllByOrderByName(pageable);
-            case "email" -> repository.findAllByOrderByEmail(pageable);
-            default -> repository.findAllByOrderById(pageable);
-        };
+    public Page<UserDTO> findAllByOrder(Pageable pageable) {
+        return repository.findAll(pageable).map(user -> new UserDTO(
+                user.getId(), user.getName(), user.getEmail(), user.getPhone()));
     }
 
     //Método mantido para fins de estudos
