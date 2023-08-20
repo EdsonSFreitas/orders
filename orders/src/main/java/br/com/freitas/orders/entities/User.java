@@ -5,10 +5,7 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Edson da Silva Freitas
@@ -42,6 +39,27 @@ public class User implements Serializable {
         this.phone = phone;
         this.password = password;
     }
+
+    public User(UserDTO dados) {//Classe UserDTO sem ser do tipo record
+        this.id = dados.getId();
+        this.name = dados.getName();
+        this.email = dados.getEmail();
+        this.phone = dados.getPhone();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(phone, user.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, phone);
+    }
+
 
     public void addOrder(Order order) {
         if (order != null) {
@@ -98,4 +116,6 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }

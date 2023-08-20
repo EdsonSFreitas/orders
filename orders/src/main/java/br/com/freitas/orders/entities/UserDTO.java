@@ -1,5 +1,7 @@
 package br.com.freitas.orders.entities;
 
+import java.util.Objects;
+
 public class UserDTO {
 
     private Long id;
@@ -13,6 +15,7 @@ public class UserDTO {
         this.email = email;
         this.phone = phone;
     }
+
 
     public Long getId() {
         return id;

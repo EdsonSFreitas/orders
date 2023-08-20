@@ -55,7 +55,16 @@ public class TestConfig implements CommandLineRunner {
 
         User u1 = new User(null, "Maria Brown", "maria@example.com", "9999-9999", "123456");
         User u2 = new User(null, "Alex Green", "alex@example.com", "9999-9999", "1234567");
-        userRepository.saveAll(List.of(u1, u2));
+        User u3 = new User(null, "Zack Abanton", "abanton@example.com", "8888-8888", "password3");
+        User u4 = new User(null, "Jane Smith", "jane@example.com", "7777-7777", "password4");
+        User u5 = new User(null, "Michael Johnson", "michael@example.com", "6666-6666", "password5");
+        User u6 = new User(null, "Emily Davis", "emily@example.com", "5555-5555", "password6");
+        User u7 = new User(null, "David Wilson", "david@example.com", "4444-4444", "password7");
+        User u8 = new User(null, "Linda Lee", "linda@example.com", "3333-3333", "password8");
+        User u9 = new User(null, "William Taylor", "william@example.com", "2222-2222", "password9");
+        User u10 = new User(null, "Jennifer Miller", "jennifer@example.com", "1111-1111", "password10");
+        User u11 = new User(null, "Xavier Miller", "xavier@example.com", "1111-1111", "password10");
+        userRepository.saveAll(List.of(u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11));
 
         Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"),OrderStatus.PAID,u1);
         Order o2 = new Order(null,Instant.parse("2019-07-21T03:42:10Z"),OrderStatus.WAITING_PAYMENT,u2);

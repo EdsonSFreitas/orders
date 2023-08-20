@@ -4,6 +4,9 @@ import br.com.freitas.orders.entities.User;
 import br.com.freitas.orders.entities.UserDTO;
 import br.com.freitas.orders.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,10 +26,20 @@ public class UserResource {
     private UserService service;
 
     @GetMapping
+    public ResponseEntity<Page<UserDTO>> findAllByOrder(@PageableDefault(size = 3, page = 0) Pageable pageable,
+                                                        @RequestParam(defaultValue = "id") String orderBy) {
+        Page<UserDTO> page = service.findAllByOrder(pageable, orderBy);
+        return ResponseEntity.ok().body(page);
+        //URL de exemplo com paginacao - http://meu.dominio.interno:8080/users?page=0&size=20&orderBy=email
+    }
+
+    //Método mantido para fins de estudos
+    @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> findAll() {
         List<UserDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable Long id) {

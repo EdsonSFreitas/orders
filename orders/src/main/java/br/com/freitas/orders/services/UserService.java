@@ -9,6 +9,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,15 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
+    public Page<UserDTO> findAllByOrder(Pageable pageable, String orderBy) {
+        return switch (orderBy) {
+            case "name" -> repository.findAllByOrderByName(pageable);
+            case "email" -> repository.findAllByOrderByEmail(pageable);
+            default -> repository.findAllByOrderById(pageable);
+        };
+    }
+
+    //Método mantido para fins de estudos
     public List<UserDTO> findAll() {
         List<User> users = repository.findAll();
         return users.stream()
