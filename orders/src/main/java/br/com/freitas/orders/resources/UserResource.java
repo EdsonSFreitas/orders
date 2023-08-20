@@ -26,8 +26,10 @@ public class UserResource {
     private UserService service;
 
     @GetMapping
-    public ResponseEntity<Page<UserDTO>> findAllByOrder(@PageableDefault(size = 3, page = 0) Pageable pageable,
-                                                        @RequestParam(defaultValue = "id") String orderBy) {
+    public ResponseEntity<Page<UserDTO>> findAllByOrder
+            (@PageableDefault(size = 3, page = 0) Pageable pageable,
+             @RequestParam(name = "sort", required = false, defaultValue = "asc") String sort,
+             @RequestParam(defaultValue = "id") String orderBy) {
         Page<UserDTO> page = service.findAllByOrder(pageable, orderBy);
         return ResponseEntity.ok().body(page);
         //URL de exemplo com paginacao - http://meu.dominio.interno:8080/users?page=0&size=20&orderBy=email
