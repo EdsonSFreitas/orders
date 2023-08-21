@@ -1,11 +1,17 @@
 package br.com.freitas.orders.entities;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.Objects;
 
 public class UserDTO {
 
     private Long id;
+    @NotBlank
     private String name;
+    @NotBlank
+    @Email//(regexp = ".+@.+\\..+")
     private String email;
     private String phone;
 

@@ -2,6 +2,8 @@ package br.com.freitas.orders.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -24,7 +26,10 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+    @NotBlank
     private String name;
+    @Email(regexp = ".+@.+\\..+")
+    @NotBlank
     private String email;
     private String phone;
     private String password;
@@ -32,7 +37,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String name, String email, String phone, String password) {
+    public User(Long id, String name, @Email String email, String phone, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
