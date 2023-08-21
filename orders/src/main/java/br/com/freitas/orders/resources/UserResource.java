@@ -6,6 +6,7 @@ import br.com.freitas.orders.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,12 @@ public class UserResource {
 
     @GetMapping
     public ResponseEntity<Page<UserDTO>> findAllByOrder
-            (@PageableDefault(size = 3, page = 0, sort = {"id"}) Pageable pageable) {
+            (@PageableDefault(size = 20, page = 0, sort = {"id"}) Pageable pageable) {
+        //Limitando size a 20 para evitar sobrecarga no servidor
+        if (pageable.getPageSize() > 20) {
+            pageable = PageRequest.of(pageable.getPageNumber(), 20);
+        }
+
         Page<UserDTO> page = service.findAllByOrder(pageable);
         return ResponseEntity.ok().body(page);
         //URL de exemplo com paginacao limitando a 5 resultados, filtrando por email e ordenado por ordem descrescente:
