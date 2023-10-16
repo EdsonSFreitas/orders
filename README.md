@@ -3,7 +3,9 @@
 ## :memo: Resumo do projeto
 Projeto de uma simples API de Orders para fins de prática aplicando boas práticas e autenticação/autorização via token.
 
-## :classical_building: Diagrama de Classes (_Parcial devido ao volume de classes e relacionamentos_)
+## :classical_building: Diagrama de Classes
+
+Obs: _Criei a representação parcial do diagrama para fins de estudos_
 
 ```mermaid
 classDiagram
@@ -349,4 +351,5 @@ classDiagram
 * Em andamento
 
 ## :framed_picture: Screnshoot
-![Screenshot SWAGGER](docs/SpringDoc-2023-10-16 11-52-19.png)
+![Screenshot SWAGGER](https://github.com/EdsonSFreitas/orders/blob/main/orders/src/docs/SpringDoc-2023-10-16%2011-52-19.png)
+
