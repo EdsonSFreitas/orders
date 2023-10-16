@@ -1,7 +1,7 @@
 package br.com.freitas.orders.services;
 
 import br.com.freitas.orders.entities.User;
-import br.com.freitas.orders.entities.UserDTO;
+import br.com.freitas.orders.entities.dto.UserDTO;
 import br.com.freitas.orders.repositories.UserRepository;
 import br.com.freitas.orders.services.exceptions.DatabaseException;
 import br.com.freitas.orders.services.exceptions.ResourceNotFoundException;
@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,19 +24,26 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UserService {
-    @Autowired
+
     private UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
+        this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public Page<UserDTO> findAllByOrder(Pageable pageable) {
         return repository.findAll(pageable).map(user -> new UserDTO(
-                user.getId(), user.getName(), user.getEmail(), user.getPhone()));
+                user.getId(), user.getName(), user.getEmail(), user.getPhone(), user.getLogin(), user.getRole().getCode()));
     }
 
     //Método mantido para fins de estudos
     public List<UserDTO> findAll() {
         List<User> users = repository.findAll();
         return users.stream()
-                .map(user -> new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPhone()))
+                .map(user -> new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPhone(), user.getLogin(), user.getRole().getCode()))
                 .collect(Collectors.toList());
 
         /* // Retornara todos os campos da classe User para todos users, inclusive a senha do usuario
@@ -56,6 +64,7 @@ public class UserService {
     }
 
     public User insert(User obj) {
+        obj.setPassword(passwordEncoder.encode(obj.getPassword()));
         return repository.save(obj);
     }
 

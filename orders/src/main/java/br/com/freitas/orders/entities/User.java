@@ -1,9 +1,16 @@
 package br.com.freitas.orders.entities;
 
+import br.com.freitas.orders.entities.dto.UserDTO;
+import br.com.freitas.orders.entities.enums.RolesEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,9 +21,14 @@ import java.util.*;
  * {@code @created} 18/08/2023
  * {@code @project} orders
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_user")
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
     @Serial
     private static final long serialVersionUID = 1L;
     @JsonIgnore
@@ -32,18 +44,28 @@ public class User implements Serializable {
     @NotBlank
     private String email;
     private String phone;
+
+    @NotEmpty(message = "{field.login.obrigatorio}")
+    private String login;
+
+    @NotEmpty(message = "{field.senha.obrigatorio}")
+    //@PasswordComplexity(minLength = 3, requireLowerCase = true, requireUpperCase = true, requireSpecialChar = true, requireNumber = true, message = "{field.senha.complexidade}")
     private String password;
 
-    public User() {
-    }
+    private Integer role;
 
-    public User(Long id, String name, @Email String email, String phone, String password) {
+  /*  public User() {
+    }*/
+
+/*    public User(Long id, String name, @Email String email, String phone, String password, String login, Integer role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.password = password;
-    }
+        this.login = login;
+        this.role = role;
+    }*/
 
     public User(UserDTO dados) {//Classe UserDTO sem ser do tipo record
         this.id = dados.getId();
@@ -78,49 +100,47 @@ public class User implements Serializable {
                 .ifPresent(orders -> orders.remove(order));
     }
 
+    public RolesEnum getRole() {
+        return RolesEnum.valueOf(role);
+    }
+
+    public void setRole(RolesEnum role) {
+        if(role != null) {
+            this.role = role.getCode();
+        }
+    }
     public List<Order> getOrders() {
         return Collections.unmodifiableList(orders);
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(getRole().toString()));
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public String getUsername() {
+        return login;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public String getEmail() {
-        return email;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 
 }

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>br.com.freitas</groupId>
 	<artifactId>orders</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.9.8-SNAPSHOT</version>
 	<name>orders</name>
 	<description>API Orders project for Spring Boot</description>
 	<properties>
@@ -50,6 +50,27 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.26</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.4.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
