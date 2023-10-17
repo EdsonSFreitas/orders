@@ -261,7 +261,7 @@ classDiagram
 - Usei Spring Data JPA para o relacionamento entre as entidades e CRUD
 - Validação dos campos;
 - Validação da complexidade da senha por meio de anotação personalizada;
-- Endpoint para exibir todos os cadastros de usuários usando page/size/sort e limit retornando DTO
+- Endpoint para exibir todos os cadastros de usuários usando page/size/sort/limit retornando DTO
 - JWT - Autenticação e Autorização
 - HandlerExceptionResolver para capturar e personalizar as exceções do Spring Security
 - Configurei o Springdoc/Swagger para suporte a autenticação via token
@@ -321,7 +321,7 @@ classDiagram
 - Compilação: Entre no diretório que contém o arquivo pom.xml e gere o artefato .jar com o comando mvn do maven:
 
     ```bash
-    cd orders/
+    cd orders/orders
     mvn clean package -DskipTests
     ```
 
@@ -332,10 +332,10 @@ classDiagram
     java -jar orders-0.9.8-SNAPSHOT.jar
     ```
 
-- Também é possível usar o comando:
-  ```
-  mvn spring-boot:run
-  ```
+  - Também é possível usar o comando:
+    ```bash
+    mvn spring-boot:run
+    ```
 
 - Com isso você terá acesso ao http://localhost:8080/swagger-ui/index.html para usar todos os endpoints disponíveis.
 - No endpoint /login você pode usar o login **user** com senha **123@UmaSenha**
@@ -352,4 +352,3 @@ classDiagram
 
 ## :framed_picture: Screnshoot
 ![Screenshot SWAGGER](https://github.com/EdsonSFreitas/orders/blob/main/orders/src/docs/SpringDoc-2023-10-16%2011-52-19.png)
-

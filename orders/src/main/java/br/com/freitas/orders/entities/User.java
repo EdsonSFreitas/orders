@@ -2,6 +2,7 @@ package br.com.freitas.orders.entities;
 
 import br.com.freitas.orders.entities.dto.UserDTO;
 import br.com.freitas.orders.entities.enums.RolesEnum;
+import br.com.freitas.orders.security.password.PasswordComplexity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -31,43 +32,35 @@ import java.util.*;
 public class User implements Serializable, UserDetails {
     @Serial
     private static final long serialVersionUID = 1L;
+
     @JsonIgnore
     @OneToMany(mappedBy = "client")
     private final List<Order> orders = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
     @NotBlank
     private String name;
+
     @Email(regexp = ".+@.+\\..+")
     @NotBlank
     private String email;
+
     private String phone;
 
     @NotEmpty(message = "{field.login.obrigatorio}")
     private String login;
 
     @NotEmpty(message = "{field.senha.obrigatorio}")
-    //@PasswordComplexity(minLength = 3, requireLowerCase = true, requireUpperCase = true, requireSpecialChar = true, requireNumber = true, message = "{field.senha.complexidade}")
+    @PasswordComplexity(minLength = 3, requireLowerCase = true, requireUpperCase = true, requireSpecialChar = true, requireNumber = true, message = "{field.senha.complexidade}")
     private String password;
 
     private Integer role;
 
-  /*  public User() {
-    }*/
-
-/*    public User(Long id, String name, @Email String email, String phone, String password, String login, Integer role) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-        this.login = login;
-        this.role = role;
-    }*/
-
-    public User(UserDTO dados) {//Classe UserDTO sem ser do tipo record
+    public User(UserDTO dados) {
         this.id = dados.getId();
         this.name = dados.getName();
         this.email = dados.getEmail();
@@ -95,7 +88,7 @@ public class User implements Serializable, UserDetails {
     }
 
     public void removeOrder(Order order) {
-        Optional.ofNullable(orders)
+        Optional.of(orders)
                 .filter(orders -> orders.contains(order))
                 .ifPresent(orders -> orders.remove(order));
     }
@@ -105,10 +98,11 @@ public class User implements Serializable, UserDetails {
     }
 
     public void setRole(RolesEnum role) {
-        if(role != null) {
+        if (role != null) {
             this.role = role.getCode();
         }
     }
+
     public List<Order> getOrders() {
         return Collections.unmodifiableList(orders);
     }

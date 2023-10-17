@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -15,6 +19,10 @@ import java.util.Objects;
  * {@code @created} 18/08/2023
  * {@code @project} orders
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_order_item")
 public class OrderItem implements Serializable {
@@ -25,6 +33,7 @@ public class OrderItem implements Serializable {
     private OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;
+
     private Double price;
 
     public OrderItem(Order order, Product product, Integer quantity, Double price) {
@@ -32,10 +41,6 @@ public class OrderItem implements Serializable {
         id.setProduct(product);
         this.quantity = quantity;
         this.price = price;
-    }
-
-    public OrderItem() {
-
     }
 
     @JsonIgnore
@@ -55,21 +60,8 @@ public class OrderItem implements Serializable {
         id.setProduct(product);
     }
 
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
+    public Double getSubTotal() {
+        return price * quantity;
     }
 
     @Override
@@ -83,9 +75,5 @@ public class OrderItem implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public Double getSubTotal() {
-        return price * quantity;
     }
 }
