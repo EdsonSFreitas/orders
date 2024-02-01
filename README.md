@@ -1,7 +1,7 @@
 <h1 align="center">RESTFul API Orders com Spring Boot e Spring Security</h1>
 
 ## :memo: Resumo do projeto
-Projeto de uma simples API de Orders para fins de prática aplicando boas práticas e autenticação/autorização via token.
+Projeto de uma simples API de Orders para fins de prática aplicando boas práticas e autenticação/autorização via token. A base desse projeto foi baseado no curso Java do super mestre Nélio Alves, fiz diversas implementações para fins de prática e estudos.
 
 ## :classical_building: Diagrama de Classes
 
